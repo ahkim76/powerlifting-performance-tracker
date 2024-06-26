@@ -1,0 +1,19 @@
+"use strict";
+
+/*
+https://yeun.github.io/open-color/#blue
+COLORS TO USE:
+Background (gray): #f1f3f5
+Primary blue (used for buttons, tabs, headers): #1c7ed6
+Secondary blue (used for secondary information, background colors for sections, and hover states): #74c0fc
+Primary orange (used for main navigation and warning messages): #f76707
+Secondary orange (used for highlighting text, small icons, decoration): #ffc078
+*/
+.root {
+-fx-font-family: "Source Sans Pro", sans-serif;
+-fx-background-color: #f1f3f5;
+}
+
+#header {
+-fx-font-color: #1c7ed6
+}
