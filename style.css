@@ -3,17 +3,68 @@
 /*
 https://yeun.github.io/open-color/#blue
 COLORS TO USE:
-Background (gray): #f1f3f5
-Primary blue (used for buttons, tabs, headers): #1c7ed6
-Secondary blue (used for secondary information, background colors for sections, and hover states): #74c0fc
-Primary orange (used for main navigation and warning messages): #f76707
-Secondary orange (used for highlighting text, small icons, decoration): #ffc078
+Background: #fff4e6
+Button colors: #ff922b
+Button when hover: #fd7e14 or #f76707 for more darker
+
+Current output: Name: Bob
+                User ID: BobbyJones
+                Squat PR: 325.0 lbs
+                Bench PR: 230.0 lbs
+                Deadlift PR: 425.0 lbs
+                Bodyweight: 177.0 lbs
+                Welcome to the Powerlifting Performance Tracker!
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                1. Add User
+                2. Record Lifts
+                3. View Progress
+                4. Calculate One Rep Max
+                5. Talk to an AI Powerlifting coach
+                6. Prepare for your next meet
+                7. Exit
+                8. For instructions again
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                Enter your choice (1-7):
 */
 .root {
--fx-font-family: "Source Sans Pro", sans-serif;
--fx-background-color: #f1f3f5;
+    -fx-background-color: #fff4e6;
+    -fx-font-family: "Open Sans", sans-serif;
+    ;
 }
 
 #header {
--fx-font-color: #1c7ed6
+    -fx-text-fill: black;
+    -fx-font-size: 36px;     /* Larger font size to be obvious */
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 200px;
+}
+
+#info {
+    -fx-text-fill: black;
+}
+
+#loginBtn {
+-fx-background-color: #ffa94d;
+-fx-text-fill: #ffffff;
+-fx-font-weight: bold;
+ //-fx-padding: 0px 35px; /* UpDown, then Sides */
+    -fx-border-radius: 5px; /* Rounded corners */
+
+}
+
+#loginBtn:hover {
+ -fx-background-color: #ff922b;
+}
+
+#mainHbox {
+-fx-padding: 10 20 10 20; /* Padding inside the HBox: top, right, bottom, left */
+    -fx-spacing: 20; /* This will not work directly in CSS as HBox does not support -fx-spacing in CSS */
+}
+
+#mainImg {
+-fx-background-color: white; /* Needed for the shadow effect to be visible */
+    -fx-background-radius: 10; /* Rounded corners, specify the radius */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 5, 0, 0, 5); /* Shadow effect */
+    -fx-padding: 10; /* Padding around the image to ensure the shadow is visible */
 }
