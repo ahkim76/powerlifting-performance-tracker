@@ -1,4 +1,5 @@
-package Project;
+package com.alexkim.powerliftingperformancetrackerv2;
+
 import java.util.Scanner;
 import java.util.Date;
 
@@ -11,23 +12,23 @@ public class PowerliftingPerformanceTracker {
         String choice;
         Workout work = null;
         //User user = null;
-        ProgressTracker progressTrack = new ProgressTracker();
+
 
         // Normal implementation, will use dummy values for testing
         //User userOne = new User();
         //user = userOne.makeUser();
-        User user = new User("Bob", "BobbyJones", new double[]{325, 230, 425}, 157);
+        boolean isMale = true;
+        User user = new User("Bob", "BobbyJones", new double[]{325, 230, 425}, 177, isMale);
         System.out.println(user);
-
+        ProgressTracker progressTrack = new ProgressTracker(user);
         while(!exit) {
             if (yee ==0) printMainMenu();
             else printSecondaryMenu();
             yee++;
-            choice = scan.next();
+            choice = scan.next().trim();
 
             switch(choice) {
                 case "1": // ADD USER
-
                     break;
 
                 case "2": // RECORD LIFTS
@@ -43,12 +44,22 @@ public class PowerliftingPerformanceTracker {
                     break;
 
                 case "3": // VIEW PROGRESS
-                    if (work != null) { // Check if work is initialized
-                        progressTrack.viewProgress();
-                    } else {
-                        System.out.println("Please record lifts before viewing progress.");
+                    printProgressTracker();
+                    String secondaryChoice = scan.next();
+                    switch(secondaryChoice) {
+                        case "1":
+                            if (work != null) { // Check if work is initialized
+                                progressTrack.viewProgress();
+                            } else {
+                                System.out.println("Please record lifts before viewing progress.");
+                            }
+                            break;
+                        case "2":
+                            progressTrack.getWilksScore();
+                            break;
                     }
                     break;
+
 
                 case "4": // CALCULATE ONE REP MAX
                     //System.out.println("Note - 1RM calculators get more inaccurate the more reps you do.");
@@ -64,10 +75,21 @@ public class PowerliftingPerformanceTracker {
                     System.out.println("Feature coming soon!");
                     break;
 
-                case "6": // EXIT
-                    exit = true;
+                case "6":
+                    if (user != null) {
+                        MeetPrepTool prepTool = new MeetPrepTool(user);
+                        prepTool.prepareForMeet();
+                    } else {
+                        System.out.println("Please add your details before preparing for a meet");
+                    }
                     break;
 
+                case "7": // EXIT
+                    exit = true;
+                    break;
+                case "8":
+                    printMainMenu();
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
@@ -82,14 +104,25 @@ public class PowerliftingPerformanceTracker {
         System.out.println("3. View Progress");
         System.out.println("4. Calculate One Rep Max");
         System.out.println("5. Talk to an AI Powerlifting coach");
-        System.out.println("6. Exit");
+        System.out.println("6. Prepare for your next meet");
+        System.out.println("7. Exit");
+        System.out.println("8. For instructions again");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("Enter your choice (1-6): ");
+        System.out.println("Enter your choice (1-7): ");
     }
 
     public void printSecondaryMenu() {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("Would you like to do anything else? (1-6): ");
+        System.out.println("Would you like to do anything else? (7 to recall instructions) (1-8): ");
+    }
+
+    // PROGRESS TRACKER SUB MENU IMPLEMENTATION
+    public void printProgressTracker() {
+        System.out.println("Welcome to the Progress Checker sub-menu");
+        System.out.println("1. View total workouts");
+        System.out.println("2. Check Wilks score");
+        System.out.println("3. View progress graph");
+        System.out.println("Enter your choice (1-3)");
     }
 
 }
