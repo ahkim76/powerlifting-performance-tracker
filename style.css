@@ -1,5 +1,4 @@
 "use strict";
-
 /*
 https://yeun.github.io/open-color/#blue
 COLORS TO USE:
@@ -37,7 +36,7 @@ Current output: Name: Bob
     -fx-font-size: 36px;     /* Larger font size to be obvious */
     -fx-alignment: center;
     -fx-font-weight: bold;
-    -fx-letter-spacing: 200px;
+    -fx-letter-spacing: .5px;
 }
 
 #info {
@@ -45,26 +44,65 @@ Current output: Name: Bob
 }
 
 #loginBtn {
--fx-background-color: #ffa94d;
--fx-text-fill: #ffffff;
--fx-font-weight: bold;
- //-fx-padding: 0px 35px; /* UpDown, then Sides */
+    -fx-background-color: #ffa94d;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    //-fx-padding: 0px 35px; /* UpDown, then Sides */
+    -fx-background-radius: 5px;
     -fx-border-radius: 5px; /* Rounded corners */
 
 }
 
 #loginBtn:hover {
- -fx-background-color: #ff922b;
+    -fx-background-color: #ff922b;
 }
 
 #mainHbox {
--fx-padding: 10 20 10 20; /* Padding inside the HBox: top, right, bottom, left */
+    -fx-padding: 10 20 10 20; /* Padding inside the HBox: top, right, bottom, left */
     -fx-spacing: 20; /* This will not work directly in CSS as HBox does not support -fx-spacing in CSS */
 }
 
 #mainImg {
--fx-background-color: white; /* Needed for the shadow effect to be visible */
+    -fx-background-color: white; /* Needed for the shadow effect to be visible */
     -fx-background-radius: 10; /* Rounded corners, specify the radius */
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 5, 0, 0, 5); /* Shadow effect */
     -fx-padding: 10; /* Padding around the image to ensure the shadow is visible */
+}
+
+
+/* REGISTRATION PAGE STYLING */
+
+#headerR {
+    -fx-text-fill: black;
+    -fx-font-size: 36px;     /* Larger font size to be obvious */
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: .5px;
+    -fx-padding: 20 0 50 0;
+}
+
+#registerBtn {
+-fx-font-size: 20px;
+    -fx-background-color: #ffa94d;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 5 50 5 50;
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px; /* Rounded corners */
+
+}
+
+#registerBtn:hover {
+    -fx-background-color: #ff922b;
+}
+
+#registerTitles {
+-fx-font-size: 16px;
+    -fx-font-color: black;
+    -fx-padding: 0 0 0 30;
+}
+
+#registerFields {
+-fx-font-size: 14px;
+-fx-border-radius: 100px;
 }
