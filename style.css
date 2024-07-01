@@ -86,7 +86,7 @@ Current output: Name: Bob
     -fx-background-color: #ffa94d;
     -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
-    -fx-padding: 5 50 5 50;
+
     -fx-background-radius: 13px;
     -fx-border-radius: 13px; /* Rounded corners */
 
@@ -102,7 +102,16 @@ Current output: Name: Bob
     -fx-padding: 0 0 0 30;
 }
 
-#registerFields {
--fx-font-size: 14px;
--fx-border-radius: 100px;
+
+
+#switchBtn {
+-fx-background-color: #ffa94d;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px; /* Rounded corners */
+}
+#switchBtn:hover {
+    -fx-background-color: #ff922b;
 }
