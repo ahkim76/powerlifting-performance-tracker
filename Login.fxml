@@ -1,37 +1,103 @@
-<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
-<AnchorPane fx:id="loginPane" prefHeight="584.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alexkim.powerliftingperformancetrackerv2.HelloController">
+<AnchorPane fx:id="registerPane" prefHeight="584.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alexkim.powerliftingperformancetrackerv2.HelloController">
    <children>
-      <VBox layoutX="-7.0" prefHeight="550.0" prefWidth="711.0" spacing="20.0">
+      <VBox layoutX="-2.0" prefHeight="550.0" prefWidth="711.0" spacing="5.0">
          <children>
-            <Label fx:id="headerR" alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="711.0" text="Welcome Back!" textAlignment="CENTER">
+            <Label fx:id="headerR" alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="711.0" text="Register" textAlignment="CENTER">
                <padding>
                   <Insets top="20.0" />
                </padding>
-               <VBox.margin>
-                  <Insets bottom="100.0" />
-               </VBox.margin>
             </Label>
-            <TextField focusTraversable="false" promptText="Enter Username" />
-            <PasswordField focusTraversable="false" promptText="Enter Password" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="708.0">
+            <GridPane prefHeight="357.0" prefWidth="711.0" vgap="30.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="419.0" minWidth="10.0" prefWidth="272.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="423.0" minWidth="10.0" prefWidth="269.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="152.0" minHeight="10.0" prefHeight="124.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="199.0" minHeight="10.0" prefHeight="191.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <Button fx:id="registerBtn" alignment="TOP_CENTER" contentDisplay="TOP" mnemonicParsing="false" text="Login" textAlignment="CENTER">
+                  <VBox prefHeight="215.0" prefWidth="307.0" spacing="12.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <TextField fx:id="squatPRField" focusTraversable="false" promptText="Current Squat PR">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="benchPRField" focusTraversable="false" promptText="Current Bench PR">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="deadliftPRField" focusTraversable="false" promptText="Current Deadlift PR">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="bodyweightField" focusTraversable="false" promptText="Your Bodyweight (lbs)">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+                           <children>
+                              <Label text="Gender:" />
+                              <ChoiceBox fx:id="genderBox" prefWidth="150.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="12.0" GridPane.columnIndex="1">
+                     <children>
+                        <TextField fx:id="firstNameField" focusTraversable="false" promptText="First Name">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="usernameField" focusTraversable="false" promptText="Username">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <PasswordField fx:id="passwordField" focusTraversable="false" promptText="Password">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </PasswordField>
+                     </children>
+                  </VBox>
+                  <Label fx:id="registerTitles" alignment="TOP_LEFT" prefHeight="40.0" prefWidth="353.0" text="Account">
+                     <GridPane.margin>
+                        <Insets bottom="60.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="registerTitles" prefHeight="40.0" prefWidth="353.0" text="Personal Details" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="150.0" />
+                     </GridPane.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="85.0" right="85.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </GridPane>
+            <HBox alignment="CENTER" prefHeight="99.0" prefWidth="711.0">
+               <children>
+                  <Button fx:id="registerBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#createAccount" prefHeight="50.0" prefWidth="160.0" text="Register!" textAlignment="CENTER">
                      <font>
                         <Font size="23.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="20.0" />
+                        <Insets top="10.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -39,19 +105,17 @@
                   <Insets bottom="20.0" />
                </padding>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-               <children>
-                  <Label text="Don't have an account? " />
-                  <Button fx:id="switchBtn" mnemonicParsing="false" onAction="#switchToRegisterPage" text="Sign Up!" />
-               </children>
-               <padding>
-                  <Insets right="20.0" />
-               </padding>
-            </HBox>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" layoutX="229.0" layoutY="524.0" prefHeight="76.0" prefWidth="239.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="152.0" text="Already have an account?" />
+            <Button fx:id="switchBtn" mnemonicParsing="false" onAction="#switchToLoginPage" text="Login" />
          </children>
          <padding>
-            <Insets left="100.0" right="100.0" />
+            <Insets right="20.0" />
          </padding>
-      </VBox>
+      </HBox>
    </children>
 </AnchorPane>
+
