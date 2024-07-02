@@ -111,8 +111,6 @@ public class HelloController {
     }
 
     public void createAccount(ActionEvent event) throws IOException {
-
-
         // Validate inputs
         String name = firstNameField.getText();
         String firstName = name.substring(0,1).toUpperCase()+name.substring(1);
@@ -146,6 +144,11 @@ public class HelloController {
             User newUser = new User(firstName, userID, sbd, bodyweight, isMale);
             System.out.println(newUser);
             System.out.println("~~~");
+
+            // IT WORKS!!!!!!
+            PowerliftingPerformanceTracker pl = new PowerliftingPerformanceTracker();
+            pl.run(newUser);
+
         } catch(NumberFormatException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Input is invalid");
