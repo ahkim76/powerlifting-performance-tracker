@@ -5,8 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
+//import javafx.scene.control.*;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
@@ -46,67 +51,37 @@ public class HelloController {
     private TextField bodyweightField;
 
     @FXML
-    private CheckBox femaleCheckBox;
-
-    @FXML
-    private CheckBox maleCheckBox;
-
-    @FXML
     private AnchorPane registerPane;
-
-    @FXML
-    private Label errorLabel;
 
     @FXML
     private Alert errorAlert;
 
+    /*
     @FXML
     private ChoiceBox<String> genderBox;
 
-    private String[] genders = {"Male", "Female"};
-    /*
+    private String[] genders = {"Male", "Female"};*/
+
     @FXML
     private RadioButton maleRadioBtn;
 
     @FXML
     private RadioButton femaleRadioBtn;
 
-    private ToggleGroup genderToggleGroup; */
+    private ToggleGroup genderToggleGroup;
 
     @FXML
     public void initialize() {
-
-        genderBox.getItems().add("hi");
-        genderBox.getItems().addAll(genders);
-/*
+        /*
         genderToggleGroup = new ToggleGroup();
-        maleRadioBtn = new RadioButton();
-        femaleRadioBtn = new RadioButton();
+        maleRadioBtn.setToggleGroup(genderToggleGroup);
+        femaleRadioBtn.setToggleGroup(genderToggleGroup);*/
+    }
+    public void setToggle(ActionEvent event) throws IOException {
+        genderToggleGroup = new ToggleGroup();
         maleRadioBtn.setToggleGroup(genderToggleGroup);
         femaleRadioBtn.setToggleGroup(genderToggleGroup);
-        genderToggleGroup.selectToggle(maleRadioBtn);
-
-
-
-        maleCheckBox = new CheckBox();
-        femaleCheckBox = new CheckBox();
-        maleCheckBox.setOnAction(event -> {
-            if (maleCheckBox.isSelected()) {
-                femaleCheckBox.setSelected(false);
-            } else {
-                maleCheckBox.setSelected(true); // Ensure at least one is selected
-            }
-        });
-
-        femaleCheckBox.setOnAction(event -> {
-            if (femaleCheckBox.isSelected()) {
-                maleCheckBox.setSelected(false);
-            } else {
-                femaleCheckBox.setSelected(true); // Ensure at least one is selected
-            }
-        });*/
     }
-
 
     public void switchToRegisterPage(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Register.fxml"));
@@ -120,6 +95,7 @@ public class HelloController {
 
         stage.setScene(scene);
         stage.show();
+
     }
 
     public void switchToLoginPage(ActionEvent event) throws IOException {
@@ -139,6 +115,7 @@ public class HelloController {
 
         // Validate inputs
         String name = firstNameField.getText();
+        String firstName = name.substring(0,1).toUpperCase()+name.substring(1);
         String userID = usernameField.getText();
         String password = passwordField.getText();
         String squatPRStr = squatPRField.getText();
@@ -153,7 +130,12 @@ public class HelloController {
         checkEmptyField(benchPRStr);
         checkEmptyField(deadliftPRStr);
         checkEmptyField(bodyweightStr);
-        boolean isMale = true;
+        if (!maleRadioBtn.isSelected() && !femaleRadioBtn.isSelected()) {
+            errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Please selected a gender");
+            errorAlert.showAndWait();
+        }
+        boolean isMale = maleRadioBtn.isSelected();
 
         try {
             double squatPR = Double.parseDouble(squatPRStr);
@@ -161,7 +143,7 @@ public class HelloController {
             double deadliftPR = Double.parseDouble(deadliftPRStr);
             double[] sbd = {squatPR, benchPR, deadliftPR};
             double bodyweight = Double.parseDouble(bodyweightStr);
-            User newUser = new User(name, userID, sbd, bodyweight, isMale);
+            User newUser = new User(firstName, userID, sbd, bodyweight, isMale);
             System.out.println(newUser);
             System.out.println("~~~");
         } catch(NumberFormatException e) {
