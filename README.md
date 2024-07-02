@@ -14,3 +14,6 @@ The Powerlifting Performance Tracker is an application written in Java designed 
 
 ## Installation
 Coming soon once project is complete :o
+
+## License
+This project is licensed under the MIT License.
