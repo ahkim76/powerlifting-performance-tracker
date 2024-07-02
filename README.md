@@ -1,5 +1,5 @@
 ## Introduction
-The Powerlifting Performance Tracker is an application written in Java designed to help powerlifters track their progress, record lifts, calculate one rep max, and prepare for meets. This project features a comprehensive graphical user interface (GUI) built with JavaFX and FXML files, providing a seamless and interactive user experience.
+The Powerlifting Performance Tracker is a desktop application written in Java designed to help powerlifters track their progress, record lifts, calculate one rep max, and prepare for meets. This project features a comprehensive graphical user interface (GUI) built with JavaFX and FXML files, providing a seamless and interactive user experience. Once completed, a package will be available to download and use.
 
 ## Features
 - **User Management**: Add and manage user profiles.
