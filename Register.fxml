@@ -2,9 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -14,55 +14,76 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="registerPane" prefHeight="584.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="registerPane" prefHeight="584.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alexkim.powerliftingperformancetrackerv2.HelloController">
    <children>
-      <VBox layoutX="-2.0" prefHeight="550.0" prefWidth="711.0" spacing="20.0">
+      <VBox layoutX="-2.0" prefHeight="550.0" prefWidth="711.0" spacing="5.0">
          <children>
             <Label fx:id="headerR" alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="711.0" text="Register" textAlignment="CENTER">
                <padding>
                   <Insets top="20.0" />
                </padding>
             </Label>
-            <GridPane prefHeight="372.0" prefWidth="711.0" vgap="50.0">
+            <GridPane prefHeight="357.0" prefWidth="711.0" vgap="30.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="419.0" minWidth="10.0" prefWidth="308.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="423.0" minWidth="10.0" prefWidth="303.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="419.0" minWidth="10.0" prefWidth="272.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="423.0" minWidth="10.0" prefWidth="269.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="152.0" minHeight="10.0" prefHeight="124.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="199.0" minHeight="10.0" prefHeight="191.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <VBox prefHeight="215.0" prefWidth="307.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <VBox prefHeight="215.0" prefWidth="307.0" spacing="12.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="registerFields" focusTraversable="false" promptText="Current Squat PR">
+                        <TextField fx:id="squatPRField" focusTraversable="false" promptText="Current Squat PR">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </TextField>
-                        <TextField fx:id="registerFields" focusTraversable="false" promptText="Current Bench PR" />
-                        <TextField fx:id="registerFields" focusTraversable="false" promptText="Current Deadlift PR" />
-                        <TextField fx:id="registerFields" focusTraversable="false" promptText="Your Bodyweight (lbs)" />
+                        <TextField fx:id="benchPRField" focusTraversable="false" promptText="Current Bench PR">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="deadliftPRField" focusTraversable="false" promptText="Current Deadlift PR">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="bodyweightField" focusTraversable="false" promptText="Your Bodyweight (lbs)">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
                            <children>
-                              <CheckBox fx:id="maleCheckBox" mnemonicParsing="false" selected="true" text="Male" />
-                              <CheckBox fx:id="femaleCheckBox" mnemonicParsing="false" text="Female" />
+                              <RadioButton fx:id="maleRadioBtn" mnemonicParsing="false" onAction="#setToggle" text="Male" />
+                              <RadioButton fx:id="femaleRadioBtn" mnemonicParsing="false" onAction="#setToggle" text="Female" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" GridPane.columnIndex="1">
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="12.0" GridPane.columnIndex="1">
                      <children>
-                        <TextField fx:id="registerFields" focusTraversable="false" promptText="First Name">
+                        <TextField fx:id="firstNameField" focusTraversable="false" promptText="First Name">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </TextField>
-                        <TextField fx:id="registerFields" focusTraversable="false" promptText="Username" />
-                        <PasswordField fx:id="registerFields" focusTraversable="false" promptText="Password">
+                        <TextField fx:id="usernameField" focusTraversable="false" promptText="Username">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <PasswordField fx:id="passwordField" focusTraversable="false" promptText="Password">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </PasswordField>
                      </children>
                   </VBox>
@@ -84,14 +105,14 @@
                   <Insets />
                </VBox.margin>
             </GridPane>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="708.0">
+            <HBox alignment="CENTER" prefHeight="99.0" prefWidth="711.0">
                <children>
-                  <Button fx:id="registerBtn" alignment="TOP_CENTER" contentDisplay="TOP" mnemonicParsing="false" text="Register!" textAlignment="CENTER">
+                  <Button fx:id="registerBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#createAccount" prefHeight="50.0" prefWidth="160.0" text="Register!" textAlignment="CENTER">
                      <font>
                         <Font size="23.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="20.0" />
+                        <Insets top="10.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -101,5 +122,14 @@
             </HBox>
          </children>
       </VBox>
+      <HBox alignment="CENTER" layoutX="229.0" layoutY="524.0" prefHeight="76.0" prefWidth="239.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="152.0" text="Already have an account?" />
+            <Button fx:id="switchBtn" mnemonicParsing="false" onAction="#switchToLoginPage" text="Login" />
+         </children>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </HBox>
    </children>
 </AnchorPane>
