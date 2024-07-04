@@ -5,12 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-//import javafx.scene.control.*;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
@@ -36,6 +32,8 @@ public class HelloController {
     @FXML private RadioButton maleRadioBtn;
     @FXML private RadioButton femaleRadioBtn;
     private ToggleGroup genderToggleGroup;
+   // private boolean registered = false;
+private HelloController helloController;
 
     @FXML
     public void initialize() {
@@ -52,7 +50,11 @@ public class HelloController {
 
     // ALL SWITCHING SCREEN METHODS //
 
-    public void switchTo(ActionEvent event, String fxmlFile) throws IOException {
+
+    private void switchTo(ActionEvent event, String fxmlFile) {
+        switchTo(event, fxmlFile, null);
+    }
+    private void switchTo(ActionEvent event, String fxmlFile, User newUser) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxmlFile));
             stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -62,58 +64,56 @@ public class HelloController {
             scene.getStylesheets().add(css);
             stage.setScene(scene);
             stage.show();
+            if(fxmlFile.equals("MainMenu.fxml") && newUser != null) {
+                MainMenuController mainMenuController = fxmlLoader.getController();
+                mainMenuController.setUserInformation(newUser);
+                mainMenuController.setHelloController(this);
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    @FXML
-    public void switchToRegisterPage(ActionEvent event) throws IOException {
+    @FXML public void switchToRegisterPage(ActionEvent event) throws IOException {
         switchTo(event, "Register.fxml");
     }
 
-    @FXML
-    public void switchToLoginPage(ActionEvent event) throws IOException {
+    @FXML public void switchToLoginPage(ActionEvent event) throws IOException {
         switchTo(event, "Login.fxml");
     }
 
-    @FXML
-    public void switchToMainMenu(ActionEvent event) throws IOException {
-        switchTo(event, "MainMenu.fxml");
+    @FXML public void switchToMainMenu(ActionEvent event, User newUser) throws IOException {
+        switchTo(event, "MainMenu.fxml", newUser);
     }
 
-    @FXML
-    public void switchToMeetPreparationTool(ActionEvent event) throws IOException {
+    @FXML public void switchToMeetPreparationTool(ActionEvent event) throws IOException {
         switchTo(event, "MeetPreparationTool.fxml");
     }
 
-    @FXML
-    public void switchToStarterScreen(ActionEvent event) throws IOException {
+    @FXML public void switchToStarterScreen(ActionEvent event) throws IOException {
         switchTo(event, "hello-view.fxml");
+        //if (helloController != null) helloController.switchToStarterScreen(event);
     }
 
-    @FXML
-    public void switchToOneRepMaxCalculator(ActionEvent event) throws IOException {
+    @FXML public void switchToOneRepMaxCalculator(ActionEvent event) throws IOException {
         switchTo(event, "OneRepMaxCalculator.fxml");
     }
 
-    @FXML
-    public void switchToPersonalCoach(ActionEvent event) throws IOException {
+    @FXML public void switchToPersonalCoach(ActionEvent event) throws IOException {
         switchTo(event, "PersonalCoach.fxml");
     }
 
-    @FXML
-    public void switchToRecordLifts(ActionEvent event) throws IOException {
+    @FXML public void switchToRecordLifts(ActionEvent event) throws IOException {
         switchTo(event, "RecordLifts.fxml");
     }
 
-    @FXML
-    public void switchToViewProgress(ActionEvent event) throws IOException {
+    @FXML public void switchToViewProgress(ActionEvent event) throws IOException {
         switchTo(event, "ViewProgress.fxml");
     }
 
     // END OF SWITCH SCREEN METHODS //
+
 
     @FXML
     public void createAccount(ActionEvent event) throws IOException {
@@ -137,6 +137,7 @@ public class HelloController {
             errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Please selected a gender");
             errorAlert.showAndWait();
+            return;
         }
         boolean isMale = maleRadioBtn.isSelected();
 
@@ -147,13 +148,17 @@ public class HelloController {
             double[] sbd = {squatPR, benchPR, deadliftPR};
             double bodyweight = Double.parseDouble(bodyweightStr);
             String firstName = name.substring(0,1).toUpperCase()+name.substring(1);
+
             User newUser = new User(firstName, userID, sbd, bodyweight, isMale);
             System.out.println(newUser);
             System.out.println("~~~");
 
             // IT WORKS!!!!!!
+
+            switchToMainMenu(event, newUser);
+
             PowerliftingPerformanceTracker pl = new PowerliftingPerformanceTracker();
-            pl.run(newUser);
+            //pl.run(newUser);
 
         } catch(NumberFormatException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -173,6 +178,8 @@ public class HelloController {
             return;
         }
     }
+
+
 
 
 }
