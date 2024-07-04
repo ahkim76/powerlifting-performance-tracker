@@ -31,4 +31,31 @@ public class MainMenuController {
         //switchTo(event, "hello-view.fxml");
         if (helloController != null) helloController.switchToStarterScreen(event);
     }
+
+    @FXML public void switchToRecordLifts(ActionEvent event) throws IOException {
+        //switchTo(event, "hello-view.fxml");
+        if (helloController != null) helloController.switchToRecordLifts(event);
+    }
+
+    @FXML public void switchToMeetPreparationTool(ActionEvent event) throws IOException {
+        //switchTo(event, "hello-view.fxml");
+        if (helloController != null) helloController.switchToMeetPreparationTool(event);
+    }
+
+    @FXML public void switchToOneRepMaxCalculator(ActionEvent event) throws IOException {
+        //switchTo(event, "hello-view.fxml");
+        if (helloController != null) helloController.switchToOneRepMaxCalculator(event);
+    }
+
+    @FXML public void switchToViewProgress(ActionEvent event) throws IOException {
+        //switchTo(event, "hello-view.fxml");
+        if (helloController != null) helloController.switchToViewProgress(event);
+    }
+
+    @FXML public void switchToPersonalCoach(ActionEvent event) throws IOException {
+        //switchTo(event, "hello-view.fxml");
+        if (helloController != null) helloController.switchToPersonalCoach(event);
+    }
+
 }
+
