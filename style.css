@@ -43,6 +43,10 @@ Current output: Name: Bob
     -fx-text-fill: black;
 }
 
+#loginPane {-fx-background-color: #fff4e6}
+#registerPane {-fx-background-color: #fff4e6}
+
+
 #loginBtn {
     -fx-background-color: #ffa94d;
     -fx-text-fill: #ffffff;
@@ -113,5 +117,34 @@ Current output: Name: Bob
     -fx-border-radius: 13px; /* Rounded corners */
 }
 #switchBtn:hover {
+    -fx-background-color: #ff922b;
+}
+
+/* DASHBOARD STYLING */
+
+
+#recentActivityHeader {
+    -fx-text-fill: black;
+    -fx-font-size: 24px;
+}
+
+#currentInfoHeader {
+    -fx-font-size: 16px;
+}
+
+#mainMenuFull{
+    -fx-background-color: #fff4e6
+}
+
+#mainMenuButton {
+    -fx-font-size: 18px;
+    -fx-background-color: #ffa94d;
+    -fx-text-fill: #ffffff;
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px; /* Rounded corners */
+
+}
+
+#mainMenuButton:hover {
     -fx-background-color: #ff922b;
 }
