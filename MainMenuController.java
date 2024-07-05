@@ -9,13 +9,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
+
 public class MainMenuController {
     @FXML private Label squatLabel, benchLabel, deadliftLabel, bodyweightLabel;
     private HelloController helloController;
-    public void setUserInformation(User user) {
+    public void setUserInformation() {
+        User user = UserSession.getInstance().getCurrentUser(); // use this line of code to access user data
         squatLabel.setText("Squat PR: " + user.getSquatPR()+"lbs");
         benchLabel.setText("Bench PR: " + user.getBenchPR()+"lbs");
         deadliftLabel.setText("Deadlift PR: " + user.getDeadliftPR()+"lbs");
@@ -29,7 +30,7 @@ public class MainMenuController {
 
     @FXML public void switchToStarterScreen(ActionEvent event) throws IOException {
         //switchTo(event, "hello-view.fxml");
-        if (helloController != null) helloController.switchToStarterScreen(event);
+        helloController.switchToStarterScreen(event);
     }
 
     @FXML public void switchToRecordLifts(ActionEvent event) throws IOException {
@@ -55,6 +56,11 @@ public class MainMenuController {
     @FXML public void switchToPersonalCoach(ActionEvent event) throws IOException {
         //switchTo(event, "hello-view.fxml");
         if (helloController != null) helloController.switchToPersonalCoach(event);
+    }
+
+    @FXML public void switchToMainMenu(ActionEvent event) throws IOException {
+        //switchTo(event, "hello-view.fxml");
+        if (helloController != null) helloController.switchToMainMenu(event);
     }
 
 }
