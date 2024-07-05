@@ -55,7 +55,32 @@ public class Workout {
 
     }
 
-    public void enterExercise(Scanner scan) {
+    public void enterExercise(String name, int sets, int reps, double weight) { // for JavaFX implementation
+        Exercise exercise = new Exercise(name, sets, reps, weight);
+        addExercise(exercise);
+        updatePRs(name, reps, weight);
+        System.out.println("exercise successfully added: "+exercise);
+
+    }
+
+    public void deleteExercise(int num) {
+        if (session.isEmpty()){
+            System.out.println("No workouts to delete!");
+
+        } else {
+            System.out.println("Okay! Here are your recent workouts you can delete");
+            for (int i=0; i<session.size(); i++) System.out.println((i+1)+". "+session.get(i));
+
+            System.out.println("Enter the number of the workout to delete: ");
+
+            if(num > 0 && num >= session.size()) {
+                session.remove(num-1);
+                System.out.println("Workout successfully removed");
+            }
+        }
+    }
+
+    public void enterExercise(Scanner scan) { // for console-based implementation
         // Ask the user if they want to enter an exercise
 
         boolean finished = false;
@@ -92,13 +117,11 @@ public class Workout {
 
                         System.out.println("Enter the number of the workout to delete: ");
                         int choice = scan.nextInt();
-                        if(choice > 0 && choice >= session.size()) {
+                        if(choice > 0 && choice <= session.size()) {
                             session.remove(choice-1);
                             System.out.println("Workout successfully removed");
                         }
                     }
-
-
                 }
                 else if (response.equalsIgnoreCase("n")) {
                     finished=true;
@@ -114,12 +137,9 @@ public class Workout {
                 System.out.println("Invalid input type. Please try again");
                 scan.nextLine();
             }
-
-
         }
-
-
     }
+
 
     private void updatePRs(String title, int reps, double weight) {
         if((reps == 1)) {
@@ -146,3 +166,4 @@ public class Workout {
         }
     }
 }
+
