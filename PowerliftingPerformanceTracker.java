@@ -1,11 +1,11 @@
 package com.alexkim.powerliftingperformancetrackerv2;
 
 import java.util.Scanner;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class PowerliftingPerformanceTracker {
 
-    public void run() {
+    public void run(User user) {
         boolean exit = false;
         int yee = 0;
         Scanner scan = new Scanner(System.in);
@@ -18,7 +18,7 @@ public class PowerliftingPerformanceTracker {
         //User userOne = new User();
         //user = userOne.makeUser();
         boolean isMale = true;
-        User user = new User("Bob", "BobbyJones", new double[]{325, 230, 425}, 177, isMale);
+        //User user = new User("Bob", "BobbyJones", new double[]{325, 230, 425}, 177, isMale);
         System.out.println(user);
         ProgressTracker progressTrack = new ProgressTracker(user);
         while(!exit) {
@@ -36,7 +36,8 @@ public class PowerliftingPerformanceTracker {
                         System.out.println("Please add your details before recording lifts.");
                         break;
                     }
-                    Date date = new Date(2024,5, 7);
+
+                    LocalDate date = LocalDate.of(2024, 5, 7);
                     work = new Workout(date, user);
                     work.enterExercise(scan);
                     work.displayDetails();
@@ -113,7 +114,7 @@ public class PowerliftingPerformanceTracker {
 
     public void printSecondaryMenu() {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("Would you like to do anything else? (7 to recall instructions) (1-8): ");
+        System.out.println("Would you like to do anything else? (7 to exit, 8 to recall instructions) (1-8): ");
     }
 
     // PROGRESS TRACKER SUB MENU IMPLEMENTATION
@@ -126,3 +127,4 @@ public class PowerliftingPerformanceTracker {
     }
 
 }
+
