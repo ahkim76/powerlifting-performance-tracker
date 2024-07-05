@@ -136,15 +136,47 @@ Current output: Name: Bob
     -fx-background-color: #fff4e6
 }
 
+/* ONE REP MAX STYLING */
+
 #mainMenuButton {
-    -fx-font-size: 18px;
+    -fx-font-size: 20px;
     -fx-background-color: #ffa94d;
-    -fx-text-fill: #ffffff;
-    -fx-background-radius: 13px;
-    -fx-border-radius: 13px; /* Rounded corners */
+    -fx-text-fill: #333;
+    -fx-position: relative;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px; /* Rounded corners */
 
 }
 
 #mainMenuButton:hover {
     -fx-background-color: #ff922b;
+}
+/*
+@keyframes animate {
+    0% {
+        -fx-background-position: 0px;
+    }
+    100% {
+        -fx-background-position: 200px
+    }
+}*/
+
+#resultLabel {
+    -fx-font-size: 20px;
+}
+
+#resultLabel:hover {
+
+}
+
+#calcLabel {
+    -fx-font-size: 14px;
+}
+
+#weightLifted {
+    -fx-font-size: 14px;
+}
+
+#repsPerformed {
+    -fx-font-size: 14px;
 }
