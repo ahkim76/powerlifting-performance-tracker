@@ -1,5 +1,6 @@
 package com.alexkim.powerliftingperformancetrackerv2;
 
+import java.util.Scanner;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -13,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.io.IOException;
@@ -21,28 +23,45 @@ import java.util.Objects;
 
 public class HelloController {
     private static HelloController instance;
+
     public static HelloController getInstance() {
         return instance;
     }
+
     public HelloController() {
         instance = this;
     }
+
     @FXML
     private Stage stage;
     private Scene scene;
     private Parent root;
-    @FXML private Pane focusPane;
-    @FXML private TextField firstNameField, usernameField, passwordField;
-    @FXML private TextField squatPRField, benchPRField, deadliftPRField, bodyweightField;
-    @FXML private TextField weightLifted, repsPerformed;
-    @FXML private Label resultLabel, recentActivityLabel;
-    @FXML private AnchorPane registerPane;
-    @FXML private Alert errorAlert;
-    @FXML private RadioButton maleRadioBtn;
-    @FXML private RadioButton femaleRadioBtn;
+    @FXML
+    private Pane focusPane;
+    @FXML
+    private TextField firstNameField, usernameField, passwordField;
+    @FXML
+    private TextField squatPRField, benchPRField, deadliftPRField, bodyweightField;
+    @FXML
+    private TextField weightLifted, repsPerformed;
+    @FXML
+    private TextField exerciseInput, weightInput, setsInput, repsInput;
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private Label resultLabel, recentActivityLabel;
+    @FXML
+    private AnchorPane registerPane;
+    @FXML
+    private Alert errorAlert;
+    @FXML
+    private RadioButton maleRadioBtn;
+    @FXML
+    private RadioButton femaleRadioBtn;
     private ToggleGroup genderToggleGroup;
-    @FXML private Button button;
-   // private boolean registered = false;
+    @FXML
+    private Button button;
+    // private boolean registered = false;
     private HelloController helloController;
 
     private Queue<String> recentActivityQueue = new LinkedList<>();
@@ -54,6 +73,7 @@ public class HelloController {
         maleRadioBtn.setToggleGroup(genderToggleGroup);
         femaleRadioBtn.setToggleGroup(genderToggleGroup);*/
     }
+
     public void setToggle(ActionEvent event) throws IOException {
         genderToggleGroup = new ToggleGroup();
         maleRadioBtn.setToggleGroup(genderToggleGroup);
@@ -74,14 +94,14 @@ public class HelloController {
     private void switchTo(ActionEvent event, String fxmlFile) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxmlFile));
-            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Parent root = fxmlLoader.load();
             scene = new Scene(root, 711, 585);
             String css = Objects.requireNonNull(this.getClass().getResource("style.css")).toExternalForm();
             scene.getStylesheets().add(css);
             stage.setScene(scene);
             stage.show();
-            if(fxmlFile.equals("MainMenu.fxml")) {
+            if (fxmlFile.equals("MainMenu.fxml")) {
                 MainMenuController mainMenuController = fxmlLoader.getController();
                 mainMenuController.setHelloController(this);
                 mainMenuController.setUserInformation();
@@ -101,49 +121,57 @@ public class HelloController {
                 }*/
 
 
-
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @FXML public void switchToRegisterPage(ActionEvent event) throws IOException {
+    @FXML
+    public void switchToRegisterPage(ActionEvent event) throws IOException {
         switchTo(event, "Register.fxml");
     }
 
-    @FXML public void switchToLoginPage(ActionEvent event) throws IOException {
+    @FXML
+    public void switchToLoginPage(ActionEvent event) throws IOException {
         switchTo(event, "Login.fxml");
     }
 
-    @FXML public void switchToMainMenu(ActionEvent event) throws IOException {
+    @FXML
+    public void switchToMainMenu(ActionEvent event) throws IOException {
         switchTo(event, "MainMenu.fxml");
 
     }
 
-    @FXML public void switchToMeetPreparationTool(ActionEvent event) throws IOException {
+    @FXML
+    public void switchToMeetPreparationTool(ActionEvent event) throws IOException {
         switchTo(event, "MeetPreparationTool.fxml");
     }
 
-    @FXML public void switchToStarterScreen(ActionEvent event) throws IOException {
+    @FXML
+    public void switchToStarterScreen(ActionEvent event) throws IOException {
         System.out.println("Switching to Starter Screen!");
         switchTo(event, "hello-view.fxml");
         //if (helloController != null) helloController.switchToStarterScreen(event);
     }
 
-    @FXML public void switchToOneRepMaxCalculator(ActionEvent event) throws IOException {
+    @FXML
+    public void switchToOneRepMaxCalculator(ActionEvent event) throws IOException {
         switchTo(event, "OneRepMaxCalculator.fxml");
     }
 
-    @FXML public void switchToPersonalCoach(ActionEvent event) throws IOException {
+    @FXML
+    public void switchToPersonalCoach(ActionEvent event) throws IOException {
         switchTo(event, "PersonalCoach.fxml");
     }
 
-    @FXML public void switchToRecordLifts(ActionEvent event) throws IOException {
+    @FXML
+    public void switchToRecordLifts(ActionEvent event) throws IOException {
         switchTo(event, "RecordLifts.fxml");
     }
 
-    @FXML public void switchToViewProgress(ActionEvent event) throws IOException {
+    @FXML
+    public void switchToViewProgress(ActionEvent event) throws IOException {
         switchTo(event, "ViewProgress.fxml");
     }
 
@@ -182,7 +210,7 @@ public class HelloController {
             double deadliftPR = Double.parseDouble(deadliftPRStr);
             double[] sbd = {squatPR, benchPR, deadliftPR};
             double bodyweight = Double.parseDouble(bodyweightStr);
-            String firstName = name.substring(0,1).toUpperCase()+name.substring(1);
+            String firstName = name.substring(0, 1).toUpperCase() + name.substring(1);
 
             User newUser = new User(firstName, userID, sbd, bodyweight, isMale);
             System.out.println(newUser);
@@ -196,7 +224,7 @@ public class HelloController {
             PowerliftingPerformanceTracker pl = new PowerliftingPerformanceTracker();
             pl.run(newUser);
 
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Input is invalid");
             errorAlert.setContentText("Name must be a valid String. PRs and bodyweight must be valid numbers.");
@@ -217,10 +245,9 @@ public class HelloController {
 
     // ONE REP MAX FUNCTIONALITY
     public void calculateOneRepMax(ActionEvent event) throws IOException {
-        User user = UserSession.getInstance().getCurrentUser();
-
-        String weightText =  weightLifted.getText();
-        String repsText =  repsPerformed.getText();
+        //User user = UserSession.getInstance().getCurrentUser();
+        String weightText = weightLifted.getText();
+        String repsText = repsPerformed.getText();
         checkEmptyField(weightText);
         checkEmptyField(repsText);
         try {
@@ -231,13 +258,43 @@ public class HelloController {
             resultLabel.setText("Your one rep max likely is: " + max + "lbs");
             recentActivityQueue.add(oneRepMax.toString());
 
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Input is invalid");
             errorAlert.setContentText("Please enter a number.");
             errorAlert.showAndWait();
         }
 
+    }
+
+// RECORD LIFTS FUNCTIONALITY
+
+    public void addLift(ActionEvent event) throws IOException {
+        User user = UserSession.getInstance().getCurrentUser();
+        LocalDate workoutDate = datePicker.getValue();
+        String exerciseName = exerciseInput.getText();
+        String setsAmount = setsInput.getText();
+        String repsAmount = repsInput.getText();
+        String weightAmount = weightInput.getText();
+        checkEmptyField(exerciseName);
+        checkEmptyField(setsAmount);
+        checkEmptyField(repsAmount);
+        checkEmptyField(weightAmount);
+        if(datePicker.getValue() == null) {
+            errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Please enter a workout date");
+            errorAlert.showAndWait();
+            return;
+        }
+        int numOfSets = Integer.parseInt(setsAmount);
+        int numOfReps = Integer.parseInt(repsAmount);
+        double numOfWeight = Double.parseDouble(weightAmount);
+        Workout workout = new Workout(workoutDate, user);
+        workout.enterExercise(exerciseName, numOfSets, numOfReps, numOfWeight);
+        exerciseInput.clear();
+        setsInput.clear();
+        repsInput.clear();
+        weightInput.clear();
     }
 
 }
