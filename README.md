@@ -16,4 +16,4 @@ The Powerlifting Performance Tracker is a desktop application written in Java de
 Coming soon once project is complete :o
 
 ## Development
-This full-stack project was made within 3 stages. In the first stage, I created the basic console-based application. In the second stage, I learned how to use JavaFX, created FXML user interfaces, and integrated them to the program, going from console to GUI. In the third (current) stage, I am learning the basics of MySQL, ORMLite, and Spring Boot in order to create a database and back-end server.
+This full-stack project was made within 3 stages. In the first stage, I created the basic console-based application with only Java. In the second stage, I learned how to use JavaFX, created FXML + CSS user interfaces with SceneBuilder, and integrated them to the program, going from console to GUI. In the third (current) stage, I am learning the basics of MySQL, ORMLite, and Spring Boot in order to create a database and back-end server.
