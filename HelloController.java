@@ -1,5 +1,8 @@
 package com.alexkim.powerliftingperformancetrackerv2;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,30 +13,39 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-
+import java.util.LinkedList;
+import java.util.Queue;
 import java.io.IOException;
+import javafx.util.Duration;
 import java.util.Objects;
 
 public class HelloController {
+    private static HelloController instance;
+    public static HelloController getInstance() {
+        return instance;
+    }
+    public HelloController() {
+        instance = this;
+    }
     @FXML
     private Stage stage;
     private Scene scene;
     private Parent root;
     @FXML private Pane focusPane;
-    @FXML private TextField firstNameField;
-    @FXML private TextField usernameField;
-    @FXML private TextField passwordField;
-    @FXML private TextField squatPRField;
-    @FXML private TextField benchPRField;
-    @FXML private TextField deadliftPRField;
-    @FXML private TextField bodyweightField;
+    @FXML private TextField firstNameField, usernameField, passwordField;
+    @FXML private TextField squatPRField, benchPRField, deadliftPRField, bodyweightField;
+    @FXML private TextField weightLifted, repsPerformed;
+    @FXML private Label resultLabel, recentActivityLabel;
     @FXML private AnchorPane registerPane;
     @FXML private Alert errorAlert;
     @FXML private RadioButton maleRadioBtn;
     @FXML private RadioButton femaleRadioBtn;
     private ToggleGroup genderToggleGroup;
+    @FXML private Button button;
    // private boolean registered = false;
-private HelloController helloController;
+    private HelloController helloController;
+
+    private Queue<String> recentActivityQueue = new LinkedList<>();
 
     @FXML
     public void initialize() {
@@ -48,13 +60,18 @@ private HelloController helloController;
         femaleRadioBtn.setToggleGroup(genderToggleGroup);
     }
 
+    @FXML
+    public void showRecentActivity() {
+        if (recentActivityQueue.isEmpty()) return;
+        else {
+            recentActivityLabel.setText(recentActivityQueue.poll());
+        }
+    }
+
     // ALL SWITCHING SCREEN METHODS //
 
 
     private void switchTo(ActionEvent event, String fxmlFile) {
-        switchTo(event, fxmlFile, null);
-    }
-    private void switchTo(ActionEvent event, String fxmlFile, User newUser) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxmlFile));
             stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -64,10 +81,26 @@ private HelloController helloController;
             scene.getStylesheets().add(css);
             stage.setScene(scene);
             stage.show();
-            if(fxmlFile.equals("MainMenu.fxml") && newUser != null) {
+            if(fxmlFile.equals("MainMenu.fxml")) {
                 MainMenuController mainMenuController = fxmlLoader.getController();
-                mainMenuController.setUserInformation(newUser);
                 mainMenuController.setHelloController(this);
+                mainMenuController.setUserInformation();
+                /*
+                Button mainMenuButton = (Button) scene.lookup("#mainMenuButton");
+                if (mainMenuButton != null) {
+                    // Create the animation timeline
+                    Timeline timeline = new Timeline(
+                            new KeyFrame(Duration.ZERO, new KeyValue(mainMenuButton.styleProperty(), "-fx-background-position: 0 0;")),
+                            new KeyFrame(Duration.seconds(2), new KeyValue(mainMenuButton.styleProperty(), "-fx-background-position: 200px 0;"))
+                    );
+                    timeline.setCycleCount(Timeline.INDEFINITE);
+                    timeline.setAutoReverse(false);
+
+                    mainMenuButton.setOnMouseEntered(e -> timeline.play());
+                    mainMenuButton.setOnMouseExited(e -> timeline.stop());
+                }*/
+
+
 
             }
         } catch (Exception e) {
@@ -83,8 +116,9 @@ private HelloController helloController;
         switchTo(event, "Login.fxml");
     }
 
-    @FXML public void switchToMainMenu(ActionEvent event, User newUser) throws IOException {
-        switchTo(event, "MainMenu.fxml", newUser);
+    @FXML public void switchToMainMenu(ActionEvent event) throws IOException {
+        switchTo(event, "MainMenu.fxml");
+
     }
 
     @FXML public void switchToMeetPreparationTool(ActionEvent event) throws IOException {
@@ -92,6 +126,7 @@ private HelloController helloController;
     }
 
     @FXML public void switchToStarterScreen(ActionEvent event) throws IOException {
+        System.out.println("Switching to Starter Screen!");
         switchTo(event, "hello-view.fxml");
         //if (helloController != null) helloController.switchToStarterScreen(event);
     }
@@ -152,13 +187,14 @@ private HelloController helloController;
             User newUser = new User(firstName, userID, sbd, bodyweight, isMale);
             System.out.println(newUser);
             System.out.println("~~~");
+            UserSession.getInstance().setCurrentUser(newUser);
 
             // IT WORKS!!!!!!
 
-            switchToMainMenu(event, newUser);
+            switchToMainMenu(event);
 
             PowerliftingPerformanceTracker pl = new PowerliftingPerformanceTracker();
-            //pl.run(newUser);
+            pl.run(newUser);
 
         } catch(NumberFormatException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -179,7 +215,29 @@ private HelloController helloController;
         }
     }
 
+    // ONE REP MAX FUNCTIONALITY
+    public void calculateOneRepMax(ActionEvent event) throws IOException {
+        User user = UserSession.getInstance().getCurrentUser();
 
+        String weightText =  weightLifted.getText();
+        String repsText =  repsPerformed.getText();
+        checkEmptyField(weightText);
+        checkEmptyField(repsText);
+        try {
+            double weight = Double.parseDouble(weightText);
+            int reps = Integer.parseInt(repsText);
+            OneRepMaxCalculator oneRepMax = new OneRepMaxCalculator(weight, reps);
+            String max = String.valueOf(oneRepMax.findMax());
+            resultLabel.setText("Your one rep max likely is: " + max + "lbs");
+            recentActivityQueue.add(oneRepMax.toString());
 
+        } catch(NumberFormatException e) {
+            errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Input is invalid");
+            errorAlert.setContentText("Please enter a number.");
+            errorAlert.showAndWait();
+        }
+
+    }
 
 }
