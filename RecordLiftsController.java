@@ -130,7 +130,11 @@ public class RecordLiftsController {
         Workout selectedWorkout = sessionListView.getSelectionModel().getSelectedItem();
 
         if (selectedWorkout != null) {
-            System.out.println(selectedWorkout);
+            System.out.println("Successfully deleting "+selectedWorkout);
+            LocalDate date = selectedWorkout.getDate();
+            workoutMap.get(date).remove(selectedWorkout);
+            if (workoutMap.get(date).isEmpty()) workoutMap.remove(date);
+            updateListView();
         } else if (selectedWorkout == null) {
             errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("You have not selected a workout to delete");
@@ -138,3 +142,4 @@ public class RecordLiftsController {
         }
     }
 }
+
