@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainMenuFull" prefHeight="585.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alexkim.powerliftingperformancetrackerv2.HelloController">
+<AnchorPane fx:id="mainMenuFull" prefHeight="585.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alexkim.powerliftingperformancetrackerv2.RecordLiftsController">
     <children>
         <VBox layoutX="270.0" layoutY="27.0" prefHeight="585.0" prefWidth="711.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -41,13 +41,12 @@
                         <Button fx:id="addLiftBtn" mnemonicParsing="false" onAction="#addLift" prefHeight="78.0" prefWidth="203.0" text="Add lift" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="100.0" prefWidth="287.0">
+                  <VBox prefHeight="100.0" prefWidth="287.0" spacing="10.0">
                      <children>
                         <Label text="Delete Exercise Section" />
                         <Label text="Recent Workouts:" />
-                        <ListView prefHeight="136.0" prefWidth="287.0" />
-                        <TextField focusTraversable="false" promptText="Enter the number of the workout to delete" />
-                        <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="139.0" text="Delete" />
+                        <ListView fx:id="sessionListView" prefHeight="136.0" prefWidth="287.0" />
+                        <Button fx:id="deleteLiftBtn" mnemonicParsing="false" onAction="#deleteLift" prefHeight="58.0" prefWidth="139.0" text="Delete" />
                      </children>
                   </VBox>
                </children>
@@ -61,3 +60,4 @@
         </VBox>
     </children>
 </AnchorPane>
+
