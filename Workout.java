@@ -54,7 +54,13 @@ public class Workout {
         }
 
     }
-
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Exercise exercise : session) {
+            sb.append(exercise).append("\n");
+        }
+        return sb.toString().trim();
+    }
     public void enterExercise(String name, int sets, int reps, double weight) { // for JavaFX implementation
         Exercise exercise = new Exercise(name, sets, reps, weight);
         addExercise(exercise);
@@ -166,4 +172,3 @@ public class Workout {
         }
     }
 }
-
