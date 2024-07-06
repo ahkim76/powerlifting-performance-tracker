@@ -1,9 +1,12 @@
 package com.alexkim.powerliftingperformancetrackerv2;
 
-import java.util.Scanner;
+import java.util.*;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,11 +18,8 @@ import javafx.scene.layout.Pane;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.io.IOException;
 import javafx.util.Duration;
-import java.util.Objects;
 
 public class HelloController {
     private static HelloController instance;
@@ -45,10 +45,6 @@ public class HelloController {
     @FXML
     private TextField weightLifted, repsPerformed;
     @FXML
-    private TextField exerciseInput, weightInput, setsInput, repsInput;
-    @FXML
-    private DatePicker datePicker;
-    @FXML
     private Label resultLabel, recentActivityLabel;
     @FXML
     private AnchorPane registerPane;
@@ -59,6 +55,9 @@ public class HelloController {
     @FXML
     private RadioButton femaleRadioBtn;
     private ToggleGroup genderToggleGroup;
+    @FXML private ListView<Workout> sessionListView;
+    private Map<LocalDate, List<Workout>> workoutMap = new TreeMap<>(Collections.reverseOrder());
+
     @FXML
     private Button button;
     // private boolean registered = false;
@@ -66,12 +65,26 @@ public class HelloController {
 
     private Queue<String> recentActivityQueue = new LinkedList<>();
 
-    @FXML
-    public void initialize() {
-        /*
-        genderToggleGroup = new ToggleGroup();
-        maleRadioBtn.setToggleGroup(genderToggleGroup);
-        femaleRadioBtn.setToggleGroup(genderToggleGroup);*/
+    public void setCellFactoryForSession() {
+        // Set a custom cell factory for the ListView
+        sessionListView.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Workout workout, boolean empty) {
+                super.updateItem(workout, empty);
+                // If the cell is empty or the workout is null, clear the cell text
+                if (empty || workout == null) {
+                    setText(null);
+                } else {
+                    // Get the date of the workout
+                    LocalDate date = workout.getDate();
+                    // Find the index of the workout within its date group and add 1 to make it 1-based
+                    int index = workoutMap.get(date).indexOf(workout) + 1;
+                    // Set the text of the cell to display the index, date, and workout details
+                    setText(String.format("%d. %s - %s", index, date, workout));
+                }
+            }
+        });
+
     }
 
     public void setToggle(ActionEvent event) throws IOException {
@@ -105,21 +118,9 @@ public class HelloController {
                 MainMenuController mainMenuController = fxmlLoader.getController();
                 mainMenuController.setHelloController(this);
                 mainMenuController.setUserInformation();
-                /*
-                Button mainMenuButton = (Button) scene.lookup("#mainMenuButton");
-                if (mainMenuButton != null) {
-                    // Create the animation timeline
-                    Timeline timeline = new Timeline(
-                            new KeyFrame(Duration.ZERO, new KeyValue(mainMenuButton.styleProperty(), "-fx-background-position: 0 0;")),
-                            new KeyFrame(Duration.seconds(2), new KeyValue(mainMenuButton.styleProperty(), "-fx-background-position: 200px 0;"))
-                    );
-                    timeline.setCycleCount(Timeline.INDEFINITE);
-                    timeline.setAutoReverse(false);
-
-                    mainMenuButton.setOnMouseEntered(e -> timeline.play());
-                    mainMenuButton.setOnMouseExited(e -> timeline.stop());
-                }*/
-
+            } else if (fxmlFile.equals("RecordLifts.fxml")) {
+                RecordLiftsController recordLiftsController = fxmlLoader.getController();
+                recordLiftsController.setHelloController(this);
 
             }
         } catch (Exception e) {
@@ -168,6 +169,7 @@ public class HelloController {
     @FXML
     public void switchToRecordLifts(ActionEvent event) throws IOException {
         switchTo(event, "RecordLifts.fxml");
+        setCellFactoryForSession();
     }
 
     @FXML
@@ -265,36 +267,6 @@ public class HelloController {
             errorAlert.showAndWait();
         }
 
-    }
-
-// RECORD LIFTS FUNCTIONALITY
-
-    public void addLift(ActionEvent event) throws IOException {
-        User user = UserSession.getInstance().getCurrentUser();
-        LocalDate workoutDate = datePicker.getValue();
-        String exerciseName = exerciseInput.getText();
-        String setsAmount = setsInput.getText();
-        String repsAmount = repsInput.getText();
-        String weightAmount = weightInput.getText();
-        checkEmptyField(exerciseName);
-        checkEmptyField(setsAmount);
-        checkEmptyField(repsAmount);
-        checkEmptyField(weightAmount);
-        if(datePicker.getValue() == null) {
-            errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Please enter a workout date");
-            errorAlert.showAndWait();
-            return;
-        }
-        int numOfSets = Integer.parseInt(setsAmount);
-        int numOfReps = Integer.parseInt(repsAmount);
-        double numOfWeight = Double.parseDouble(weightAmount);
-        Workout workout = new Workout(workoutDate, user);
-        workout.enterExercise(exerciseName, numOfSets, numOfReps, numOfWeight);
-        exerciseInput.clear();
-        setsInput.clear();
-        repsInput.clear();
-        weightInput.clear();
     }
 
 }
