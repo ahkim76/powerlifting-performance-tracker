@@ -9,7 +9,7 @@ The Powerlifting Performance Tracker is a desktop application written in Java de
 - **AI Coach**: Get training advice from an AI powerlifting coach.
 - **Meet Preparation**: Prepare for your next powerlifting meet.
 - **User Registration System**: Comprehensive user login and registration.
-- **GUI Interface**: Intuitive GUI with about a dozen different screens for different functionalities.
+- **GUI Interface**: Intuitive GUI with about a dozen unique interfaces for different functionalities.
 
 
 ## Installation
