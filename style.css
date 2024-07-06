@@ -136,7 +136,7 @@ Current output: Name: Bob
     -fx-background-color: #fff4e6
 }
 
-/* ONE REP MAX STYLING */
+
 
 #mainMenuButton {
     -fx-font-size: 20px;
@@ -179,4 +179,10 @@ Current output: Name: Bob
 
 #repsPerformed {
     -fx-font-size: 14px;
+}
+
+
+
+#addLiftsBtn {
+    -fx-font-size: 16px;
 }
