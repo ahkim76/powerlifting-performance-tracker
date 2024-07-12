@@ -24,6 +24,8 @@ import javafx.util.Duration;
 public class HelloController {
     private static HelloController instance;
 
+    private DatabaseImplementation database;
+
     public static HelloController getInstance() {
         return instance;
     }
@@ -39,7 +41,10 @@ public class HelloController {
     @FXML
     private Pane focusPane;
     @FXML
-    private TextField firstNameField, usernameField, passwordField;
+    private TextField firstNameField, usernameField;
+    @FXML private PasswordField passwordField;
+    @FXML
+    private TextField loginUsernameField, loginPasswordField;
     @FXML
     private TextField squatPRField, benchPRField, deadliftPRField, bodyweightField;
     @FXML
@@ -65,26 +70,12 @@ public class HelloController {
 
     private Queue<String> recentActivityQueue = new LinkedList<>();
 
-    public void setCellFactoryForSession() {
-        // Set a custom cell factory for the ListView
-        sessionListView.setCellFactory(param -> new ListCell<>() {
-            @Override
-            protected void updateItem(Workout workout, boolean empty) {
-                super.updateItem(workout, empty);
-                // If the cell is empty or the workout is null, clear the cell text
-                if (empty || workout == null) {
-                    setText(null);
-                } else {
-                    // Get the date of the workout
-                    LocalDate date = workout.getDate();
-                    // Find the index of the workout within its date group and add 1 to make it 1-based
-                    int index = workoutMap.get(date).indexOf(workout) + 1;
-                    // Set the text of the cell to display the index, date, and workout details
-                    setText(String.format("%d. %s - %s", index, date, workout));
-                }
-            }
-        });
+    @FXML private void initialize() {
 
+    }
+
+    public void setDatabase(DatabaseImplementation database) {
+        this.database = database;
     }
 
     public void setToggle(ActionEvent event) throws IOException {
@@ -120,8 +111,18 @@ public class HelloController {
                 mainMenuController.setUserInformation();
             } else if (fxmlFile.equals("RecordLifts.fxml")) {
                 RecordLiftsController recordLiftsController = fxmlLoader.getController();
+                recordLiftsController.setDatabase(database);
                 recordLiftsController.setHelloController(this);
 
+            } else if (fxmlFile.equals("MeetPreparationTool.fxml")) {
+                MeetPrepToolController meetPrepToolController = fxmlLoader.getController();
+                meetPrepToolController.setHelloController(this);
+            } else if (fxmlFile.equals("ViewProgress.fxml")) {
+                ProgressTrackerController progressTrackerController = fxmlLoader.getController();
+                progressTrackerController.setHelloController(this);
+            } else if(fxmlFile.equals("Register.fxml") || fxmlFile.equals("hello-view.fxml") || fxmlFile.equals("Login.fxml")) {
+                HelloController helloController = fxmlLoader.getController();
+                helloController.setDatabase(database);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,6 +148,7 @@ public class HelloController {
     @FXML
     public void switchToMeetPreparationTool(ActionEvent event) throws IOException {
         switchTo(event, "MeetPreparationTool.fxml");
+
     }
 
     @FXML
@@ -169,12 +171,17 @@ public class HelloController {
     @FXML
     public void switchToRecordLifts(ActionEvent event) throws IOException {
         switchTo(event, "RecordLifts.fxml");
-        setCellFactoryForSession();
+
     }
 
     @FXML
     public void switchToViewProgress(ActionEvent event) throws IOException {
         switchTo(event, "ViewProgress.fxml");
+        User user = UserSession.getInstance().getCurrentUser();
+        ProgressTracker progress = new ProgressTracker(user);
+        progress.viewProgress();
+        System.out.println("Progress printed");
+
     }
 
     // END OF SWITCH SCREEN METHODS //
@@ -182,9 +189,17 @@ public class HelloController {
 
     @FXML
     public void createAccount(ActionEvent event) throws IOException {
+        if (database == null) {
+            System.out.println("Database is null in createAccount method.");
+            errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Database not set");
+            errorAlert.setContentText("Database connection is not set. Please check the application.");
+            errorAlert.showAndWait();
+            return;
+        }
         // Validate inputs
         String name = firstNameField.getText();
-        String userID = usernameField.getText();
+        String username = usernameField.getText();
         String password = passwordField.getText();
         String squatPRStr = squatPRField.getText();
         String benchPRStr = benchPRField.getText();
@@ -192,7 +207,7 @@ public class HelloController {
         String bodyweightStr = bodyweightField.getText();
 
         checkEmptyField(name);
-        checkEmptyField(userID);
+        checkEmptyField(username);
         checkEmptyField(password);
         checkEmptyField(squatPRStr);
         checkEmptyField(benchPRStr);
@@ -214,17 +229,23 @@ public class HelloController {
             double bodyweight = Double.parseDouble(bodyweightStr);
             String firstName = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-            User newUser = new User(firstName, userID, sbd, bodyweight, isMale);
-            System.out.println(newUser);
-            System.out.println("~~~");
-            UserSession.getInstance().setCurrentUser(newUser);
+
+                User newUser = new User(firstName, username, password, sbd, bodyweight, isMale);
+                System.out.println(newUser);
+                System.out.println("~~~");
+                UserSession.getInstance().setCurrentUser(newUser);
+
+
 
             // IT WORKS!!!!!!
 
             switchToMainMenu(event);
-
+            int gender = 0;
+            if (isMale) gender = 1; // 1 for true/male, 0 for false/female
             PowerliftingPerformanceTracker pl = new PowerliftingPerformanceTracker();
-            pl.run(newUser);
+            database.addUser(username, password, sbd, bodyweight, gender);
+            database.printDatabase();
+           // pl.run(newUser);
 
         } catch (NumberFormatException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -233,6 +254,23 @@ public class HelloController {
             errorAlert.showAndWait();
         }
 
+    }
+
+    public void login(ActionEvent event) throws IOException {
+            String username = loginUsernameField.getText();
+            String password = loginPasswordField.getText();
+            User user = database.verifyUser(username, password);
+            if (user != null) {
+                UserSession.getInstance().setCurrentUser(user);
+                switchToMainMenu(event);
+                System.out.println(user);
+                System.out.println("~~~");
+            } else {
+                errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Login failed");
+                errorAlert.setContentText("Invalid username or password");
+                errorAlert.showAndWait();
+            }
     }
 
     private void checkEmptyField(String str) {
@@ -268,5 +306,7 @@ public class HelloController {
         }
 
     }
+
+
 
 }
