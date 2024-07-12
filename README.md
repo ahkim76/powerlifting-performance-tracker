@@ -33,7 +33,4 @@ The Powerlifting Performance Tracker is a desktop application written in Java de
 
 
 ## Installation
-Coming soon once project is complete :o
-
-## Development
-Hi
+Coming soon 
