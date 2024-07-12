@@ -17,4 +17,8 @@ public class UserSession {
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
+
+    public boolean isUserLoggedIn() {
+        return currentUser != null;
+    }
 }
