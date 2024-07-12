@@ -1,28 +1,36 @@
-package Project;
+package com.alexkim.powerliftingperformancetrackerv2;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.HashMap;
 
 public class User {
     private String name;
-    private String userID;
+    private String username;
+    private String password;
     private double[] sbd;
     private double bodyweight;
+    private boolean isMale;
 
     public User() {
         name = null;
-        userID = null;
+        password = null;
         sbd = null;
     }
 
-    public User(String name, String userID, double[] sbd, double bodyweight) {
+    public User(String name, String username, String password, double[] sbd, double bodyweight, boolean isMale) {
         this.name = name;
-        this.userID = userID;
+        this.username = username;
+        this.password = password;
         this.sbd = sbd;
         this.bodyweight = bodyweight;
+        this.isMale = isMale;
     }
-    public String getUserID() {
-        return this.userID;
+    public String getUsername() {
+        return this.username;
+    }
+    public String getPasword() {
+        return this.password;
     }
 
     public double getBodyweight() {
@@ -53,6 +61,10 @@ public class User {
         sbd[2] = pr;
     }
 
+    public boolean getGender()  {
+        return this.isMale;
+    }
+
 
 
     public User makeUser() {
@@ -72,7 +84,14 @@ public class User {
             double[] arr = {squat, bench, deadlift};
             System.out.println("Enter your bodyweight in lbs: ");
             double bw = scan.nextDouble();
-            return new User(user, identification, arr, bw);
+            System.out.println("Enter your biological sex (m/f): ");
+            String gender = scan.next();
+            String passwordd = "hi";
+            if (gender.equalsIgnoreCase("f")) {
+                isMale = false;
+            }
+
+            return new User(user, identification, passwordd, arr, bw, isMale);
         } catch (InputMismatchException e) {
             System.out.println("Invalid input type. Please try again");
             scan.next();
@@ -85,10 +104,11 @@ public class User {
     @Override
     public String toString() {
         return "Name: " + name +
-                "\nUser ID: " + userID +
+                "\nUsername: " + username +
+                "\nPassword: " + password +
                 "\nSquat PR: " + sbd[0] + " lbs" +
                 "\nBench PR: " + sbd[1] + " lbs" +
                 "\nDeadlift PR: " + sbd[2] + " lbs" +
-                "\nBodyweight: " + bodyweight + " lbs";
+                "\nBodyweight: " + bodyweight + " lbs" + "\nGender: " + isMale;
     }
 }
