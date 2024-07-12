@@ -123,6 +123,9 @@ public class HelloController {
             } else if(fxmlFile.equals("Register.fxml") || fxmlFile.equals("hello-view.fxml") || fxmlFile.equals("Login.fxml")) {
                 HelloController helloController = fxmlLoader.getController();
                 helloController.setDatabase(database);
+            } else if (fxmlFile.equals("PersonalCoach.fxml")) {
+                PowerliftingCoachController powerliftingCoachController = fxmlLoader.getController();
+                powerliftingCoachController.setHelloController(this);
             }
         } catch (Exception e) {
             e.printStackTrace();
