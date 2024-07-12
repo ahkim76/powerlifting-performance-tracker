@@ -3,12 +3,14 @@ package com.alexkim.powerliftingperformancetrackerv2;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class PowerliftingCoach {
     private String apiKey;
 
     public PowerliftingCoach() {
-        this.apiKey = "sk-proj-U3y36QyWwhV6coDGNSjKT3BlbkFJgNyeapr4CnNhA3KcGbiX";
+        this.apiKey = "";
     }
 
     public String chatGPT(String prompt) {
@@ -52,7 +54,7 @@ public class PowerliftingCoach {
     }
 
     private String buildRequestBody(String prompt, String model) {
-        String customPrompt = "You will act as an AI powerlifting coach. You are to provide advice to lifters regarding the sport, their training, and etc. If the conversation deviates away from powerlifting or athletic or self improvement activities, tell the user that you cannot assist them with other things. Also make sure to introduce yourself as the AI Powerlifting Coach at the start of every conversation. Now provide detailed advice on the following query:\n" + prompt;
+        String customPrompt = "You will act as an AI powerlifting coach. You are to provide advice to lifters regarding the sport, their training, and etc. If the conversation deviates away from powerlifting or athletic or self improvement activities, tell the user that you cannot assist them with other things. Also make sure to introduce yourself as the AI Powerlifting Coach at the start of the conversation. But if the user just asks a question, get straight to the chase and just answer it. Remember to be concise. Now provide detailed advice on the following query:\n" + prompt;
 
         // Manually construct the JSON string
         return "{"
@@ -75,8 +77,9 @@ public class PowerliftingCoach {
     }
 
     public String extractMessageFromJSONResponse(String response) {
-        int start = response.indexOf("content") + 11;
-        int end = response.indexOf("\"", start);
-        return response.substring(start, end);
+        JSONObject jsonResponse = new JSONObject(response);
+        JSONArray choices = jsonResponse.getJSONArray("choices");
+        JSONObject message = choices.getJSONObject(0).getJSONObject("message");
+        return message.getString("content");
     }
 }
