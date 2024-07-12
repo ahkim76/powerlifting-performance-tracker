@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.time.LocalDate;
 
 public class Workout {
+    private int id;
     private LocalDate date;
     private LinkedList<Exercise> session;
     private Workout next;
@@ -17,6 +18,14 @@ public class Workout {
         this.session = new LinkedList<>();
         this.next = null;
         this.user = user;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDate getDate() {
@@ -61,12 +70,13 @@ public class Workout {
         }
         return sb.toString().trim();
     }
-    public void enterExercise(String name, int sets, int reps, double weight) { // for JavaFX implementation
+    public boolean enterExercise(String name, int sets, int reps, double weight) { // for JavaFX implementation
         Exercise exercise = new Exercise(name, sets, reps, weight);
         addExercise(exercise);
         updatePRs(name, reps, weight);
         System.out.println("exercise successfully added: "+exercise);
-
+        if (updatePRs(name, reps, weight)) return true;
+        return false;
     }
 
     public void deleteExercise(int num) {
@@ -147,28 +157,33 @@ public class Workout {
     }
 
 
-    private void updatePRs(String title, int reps, double weight) {
+    private boolean updatePRs(String title, int reps, double weight) {
         if((reps == 1)) {
             switch(title.toLowerCase()) {
                 case "squat":
                     if (weight > user.getSquatPR()) {
                         user.setSquatPR(weight);
                         System.out.println("Congratulations! You hit a new " + weight + " pounds squat PR!");
-                        break;
+                        return true;
                     }
+                    break;
                 case "bench":
+                case "bench press":
                     if (weight > user.getBenchPR()) {
                         user.setBenchPR(weight);
                         System.out.println("Congratulations! You hit a new " + weight + " pounds bench PR!");
-                        break;
+                        return true;
                     }
+                    break;
                 case "deadlift":
                     if (weight > user.getDeadliftPR()) {
                         user.setDeadliftPR(weight);
                         System.out.println("Congratulations! You hit a new " + weight + " pounds deadlift PR!");
-                        break;
+                        return true;
                     }
+                    break;
             }
         }
+        return false;
     }
 }
